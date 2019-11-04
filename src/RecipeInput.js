@@ -41,7 +41,9 @@ class RecipeInput extends Component {
   
   handleSubmit(e) {
     e.preventDefault();
+    //Save what is already in the state:
     this.props.onSave({...this.state});
+    //Clear the form from data after submitting, so you don't need to remove any data for the next recipe:
     this.setState({
       title: '',
       instructions: '',
