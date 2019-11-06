@@ -32,9 +32,11 @@ class RecipeApp extends Component {
         }
       ],
       nextRecipeId: 3,
+      showForm: false        //to conditionally show the new recipe form
     }
-
+    
     this.handleSave = this.handleSave.bind(this);
+    //this.onDelete = this.onDelete.bind(this);
   }
 
   handleSave(recipe) {
@@ -42,18 +44,24 @@ class RecipeApp extends Component {
       const newRecipe = {...recipe, id: this.state.nextRecipeId};
       return {
         nextRecipeId: prevState.nextRecipeId + 1,
-        recipes: [...this.state.recipes, newRecipe]
+        recipes: [...this.state.recipes, newRecipe],
+        showForm: false     //when we click the save button-to add a new recipe, the form should disappear automatically
       }
     });
   }
 
   render() {
+    const {showForm} = this.state;
     return (
       <div className="App">
-        <Navbar />
+        <Navbar onNewRecipe={() => this.setState({showForm: true})} />
+        //Conditionally display the form of new recipe:
+        { showForm ?
           <RecipeInput 
             onSave={this.handleSave}
-          /> 
+            onClose={() => this.setState({showForm: false})}  
+          /> :
+          null }
         <RecipeList 
           recipes={this.state.recipes}/>
       </div>
